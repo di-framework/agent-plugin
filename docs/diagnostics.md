@@ -1,7 +1,7 @@
 # Dependency diagnostics
 
 `di_inspect_graph` reads the supplied TypeScript files without importing or executing them.
-Its supported API baseline is `@di-framework/core` 5.3.x. It inspects direct, file-local
+Its supported API baseline is `@di-framework/core` 6.0.x. It inspects direct, file-local
 `Container` instances, `register`, `registerValue`, inline `registerFactory` calls,
 explicit `@Component` injection on local classes, and direct `resolve` calls.
 
@@ -12,7 +12,10 @@ report. File-local containers are not merged across files.
 
 Aliases, helper calls receiving a container, conditional registrations, imported classes,
 inferred injection metadata, inheritance, forks and other unsupported patterns produce
-`status: incomplete` with locations and reasons. Missing/unreadable files and empty input
+`status: incomplete` with locations and reasons. `ApplicationContext` startup,
+`@Configuration` / `@Bean` graphs, cron registration, and `service-binding:` token
+synthesis are outside this model and must be reported as incomplete when present.
+Missing/unreadable files and empty input
 are errors. No recognized registrations is incomplete, never a clean graph. Include the
 composition root and inspect reported limitations before drawing conclusions.
 

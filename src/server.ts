@@ -52,7 +52,7 @@ export function createDiMcpServer(): Server {
         },
         {
           name: 'di_scaffold_provider',
-          description: 'Scaffolds a service class and registration helper verified with core 5.3.0.',
+          description: 'Scaffolds a service class and registration helper verified with core 6.0.1.',
           inputSchema: {
             type: 'object',
             properties: {
@@ -67,7 +67,7 @@ export function createDiMcpServer(): Server {
               },
               frameworkVersion: {
                 type: 'string',
-                description: 'Resolved target core version; scaffold supports 5.3.0 (default)',
+                description: 'Resolved target core version; scaffold supports 6.0.1 (default)',
               },
             },
             required: ['serviceName'],
@@ -124,7 +124,7 @@ export function createDiMcpServer(): Server {
         },
         {
           name: 'di_inspect_graph',
-          description: 'Statically inspects file-local @di-framework/core 5.3.x Container registrations, explicit Component injection and inline factory resolves. Reports cycles, missing registrations, source locations and incomplete analysis for unsupported patterns; never executes source.',
+          description: 'Statically inspects file-local @di-framework/core 6.0.x Container registrations, explicit Component injection and inline factory resolves. Reports cycles, missing registrations, source locations and incomplete analysis for unsupported patterns; never executes source.',
           inputSchema: {
             type: 'object',
             properties: {

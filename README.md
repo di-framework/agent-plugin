@@ -22,7 +22,7 @@ Project installs also copy Cursor rules or all bundled Claude Code skills. Globa
 ## What's Included
 
 - **Documentation tools:** `di_search_docs` resolves the target project's installed framework version (with provenance), and `di_window` expands a matching section using the same version. Missing or ambiguous version information is reported; remote endpoint fallback does not silently change the requested version.
-- **DI rules and scaffolding:** Class registration, explicit injection, singleton/transient behavior, and independent container forks verified against **@di-framework/core 5.3.0**. `di_scaffold_provider` generates a service class and registration helper; pass the target's resolved `frameworkVersion`. Other scaffold versions are rejected.
+- **DI rules and scaffolding:** Class registration, explicit injection, singleton/transient behavior, and independent container forks verified against **@di-framework/core 6.0.1**. `di_scaffold_provider` generates a service class and registration helper; pass the target's resolved `frameworkVersion`. Other scaffold versions are rejected.
 - **Diagnostics:** `di_inspect_graph` inspects supported source patterns and reports incomplete analysis for unsupported constructs. `di_validate_tokens` checks caller-supplied registration assertions only. Runtime resolution tests remain necessary.
 - **Installer:** Merges supported agent MCP settings and distributes the bundled rules and skills.
 
@@ -33,9 +33,9 @@ Project installs also copy Cursor rules or all bundled Claude Code skills. Globa
 | `di-data-rpc` | Add repository-backed services, test adapters, define and consume RPC contracts |
 | `di-app-lifecycle` | Run, test, build and diagnose apps; prepare and verify wasmCloud deployments |
 
-All skills inspect the target's resolved versions and configuration before prescribing APIs. Bundled examples target **5.3.0**; other releases require verification against their published declarations and versioned source. Detailed task guidance links to the framework docs rather than maintaining another API manual. Planned workflows are tracked through [docs issue 12](https://github.com/di-framework/docs/issues/12) and are added only after implementation and documentation ship.
+All skills inspect the target's resolved versions and configuration before prescribing APIs. Bundled examples target **6.0.1**; other releases require verification against their published declarations and versioned source. Detailed task guidance links to the `v6.0` docs snapshot rather than maintaining another API manual. The wasmCloud workflow uses the `platform` command group from `@di-framework/cli-plugin-platform`. The 6.0.1 CLI executable does not register the `agent` or `skills` groups still listed in that tag's CLI README.
 
-`bun run check:examples` typechecks and executes the bundled DI, HTTP authentication/authorization, repository, and RPC examples against pinned published packages. Generated scaffolds are separately compiled and tested for singleton/transient identity. These native tests do not run wasmCloud component builds or infrastructure deployments; the lifecycle skill describes verification in the target environment.
+`bun run check:examples` typechecks and executes the bundled DI, HTTP authentication/authorization, repository, and RPC examples against pinned published packages. Generated scaffolds are separately compiled and tested for singleton/transient identity. These native tests do not run platform component builds or infrastructure deployments; the lifecycle skill describes verification in the target environment.
 
 ---
 
@@ -109,7 +109,7 @@ Dual-licensed under either Apache-2.0 or MIT at your option.
 
 Development and CI use Bun 1.4.2. The bundled MCP server supports Node 20 or newer
 and Bun 1.4.2 or newer; CI tests packed startup on Node 20, 22 and 24 plus Bun.
-Framework examples target the exact 5.3.0 packages pinned in the lockfile.
+Framework examples target the exact 6.0.1 packages pinned in the lockfile.
 
 ```bash
 bun install --frozen-lockfile
