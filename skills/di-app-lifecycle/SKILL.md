@@ -1,6 +1,6 @@
 ---
 name: di-app-lifecycle
-description: Run, test, build, diagnose, or deploy di-framework applications locally or with the wasmCloud CLI extension.
+description: Run, test, build, diagnose, or deploy di-framework applications locally or with the platform CLI extension.
 ---
 
 # Application lifecycle
@@ -8,16 +8,27 @@ description: Run, test, build, diagnose, or deploy di-framework applications loc
 Inspect the app's package scripts, resolved framework/CLI versions and lockfile, tsconfig,
 entrypoint, `di-framework.config.json`, and (for deployment) `di-framework.deploy.toml`.
 Use installed binaries and their `--help`; avoid a one-shot latest CLI changing the
-project's toolchain. Application workflows and bundled examples are verified against
-**5.3.0** tagged implementations. Shared Pulumi platform guidance is scoped separately
-in the wasmCloud reference; inspect the installed extension, kube binary, and platform
-package versions before using it. Runtime requirements and configuration are version-specific.
+project's toolchain. Application workflows are verified against the **6.0.1** command tree in
+`packages/di-framework-cli/main.ts`. The package README at that tag still lists `agent`
+and `skills` groups that the executable does not register. Do not run those groups.
+Shared Pulumi platform guidance is scoped separately in the wasmCloud reference; inspect
+the installed extension, kube binary, and `@di-framework/platform` version before using it.
+Runtime requirements and configuration are version-specific. Narrative docs for this
+release are the `v6.0` snapshot, including the [CLI](https://docs.di-framework.dev/v6.0/cli.html),
+[wasmCloud](https://docs.di-framework.dev/v6.0/wasmcloud.html), and
+[kube](https://docs.di-framework.dev/v6.0/kube.html) topics.
 
 For an existing application, use its development/test scripts. `di-framework check`
 and `di-framework build` are the application CLI commands. They use `ttsc` when available
 and fall back to TypeScript; inspect the configured compiler and emitted entry before
 running output. `bun run dev` executes source and skips emit-time checks. `mx` commands
 are framework-monorepo maintenance commands, not application commands.
+
+Built-in application groups in 6.0.1 are `init`, `generate`, `check`, `build`,
+`http openapi generate`, `actor` (`list`, `inspect`, `reset`, `clean`), `migrations`
+(`status`, `execute`), and `queue` (`list`, `inspect`, `retry`). `extensions install`,
+`uninstall`, and `list` manage CLI extensions. Confirm every flag with `--help` on the
+installed binary before changing a target project.
 
 For a new app, inspect `di-framework init --help`, scaffold into the requested directory,
 install dependencies, then run its generated check/build/dev scripts. Keep package
@@ -35,16 +46,16 @@ or transport readiness.
 For wasmCloud, read [the deployment workflow](references/wasmcloud.md) before choosing
 commands or modifying target configuration. Building a component and deploying it require
 additional tools; do not infer a working deployment from TypeScript compilation.
+In 6.0 the extension package is `@di-framework/cli-plugin-platform` and the command
+group is `platform`. Through 5.x the group was `wasmcloud`.
 
 For APIs and changing commands, query `di_search_docs` and `di_window` with the target's
 resolved version, checking provenance. The
-[CLI guide](https://github.com/di-framework/di-framework/blob/v5.3.0/packages/di-framework-cli/README.md)
-and matching published package source are the fallback when the docs service cannot
-serve that version. When a new release changes these commands, update the examples and
-run the affected lifecycle checks before advertising support.
+[CLI guide](https://github.com/di-framework/di-framework/blob/v6.0.1/packages/di-framework-cli/README.md)
+is a fallback only after `--help` on the installed 6.0.1 binary; prefer the tagged
+`main.ts` command tree where the README disagrees. When a new release changes these
+commands, update the examples and run the affected lifecycle checks before advertising support.
 
-Track future workflow additions via [docs issue 12](https://github.com/di-framework/docs/issues/12)
-and its linked implementation issues. Bindings, scheduling, queues, migrations, actors,
-and static-assets workflows should be added only for delivered implementations with
-versioned documentation and executable validation. Do not turn proposal syntax into
-supported commands; existing lower-level APIs do not establish a planned workflow.
+Actors, queues, migrations, scheduling, service bindings, static assets, and the platform
+extension are documented on the `v6.0` snapshot. Use those topics and the installed
+`--help` output. Do not invent flags or revive 5.x command names.

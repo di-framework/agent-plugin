@@ -1,7 +1,8 @@
-# Core 5.3.0 reference
+# Core 6.0.1 reference
 
-Verified against the [tagged implementation](https://github.com/di-framework/di-framework/blob/v5.3.0/packages/di-framework-core/container.ts)
-and published `@di-framework/core@5.3.0` declarations and runtime.
+Verified against the [tagged implementation](https://github.com/di-framework/di-framework/blob/v6.0.1/packages/di-framework-core/container.ts)
+and published `@di-framework/core@6.0.1` declarations and runtime.
+Versioned narrative docs are at <https://docs.di-framework.dev/v6.0/>.
 
 | API | Behavior |
 | --- | --- |
@@ -14,14 +15,18 @@ and published `@di-framework/core@5.3.0` declarations and runtime.
 | `has(token)` | Registration presence |
 | `fork({ carrySingletons?: boolean })` | Copies registrations, optionally carrying already-created singleton instances |
 | `clear()` | Clears registrations/listeners and stops container cron jobs |
+| `ApplicationContext.builder()` | Explicit startup: `.configuration()`, `.bootstrap()`, `start()`, `stop()` |
+| `setCronMode` / `invokeCronJob` / `getCronJobs` | In-process or external cron; external mode suppresses in-component timers |
 
 `@Container({ container?, singleton? })` from the decorators subpath registers a class
 in the chosen container (global by default). `@Component(ClassOrString)` supports
-constructor parameters and properties. Global `useContainer()` is supported; follow the
+constructor parameters and properties. `@Configuration()` and `@Bean()` declare
+factory beans with explicit dependencies. Global `useContainer()` is supported; follow the
 application's container convention and avoid mixing distinct installed core copies.
 
-Class and class-name registration keys in 5.3.0 can cache separate instances. Resolve
-consistently using the same key, preferably the constructor for class registrations.
+Class and class-name registration keys in 6.0.1 can cache separate instances. `register`
+stores the constructor and `Class.name` as two definitions. Resolve consistently using
+the same key, preferably the constructor for class registrations.
 A fork has no parent lookup and does not inherit later registrations. Factory closures
 still refer to their original container after a fork; register fork-specific factories
 on the fork if isolation is required. `carrySingletons` shares only already-cached values.
@@ -32,3 +37,8 @@ Constructor injection fails on missing explicit dependencies. Property injection
 resolution failures and warns; use constructor injection or an explicit factory when a
 missing dependency must fail construction. Circular resolutions throw; remove the cycle
 or provide an explicit deferred boundary appropriate to the application.
+
+`@Bootstrap()` still runs at class-definition time and is deprecated; new startup code
+uses `ApplicationContext`. Resolving an unregistered `service-binding:<name>` token
+synthesizes a singleton factory. That synthesis, cron jobs, and configuration graphs
+are outside the static inspector.

@@ -9,15 +9,15 @@
         "openapi-fetch": "^0.17.0",
       },
       "devDependencies": {
-        "@bufbuild/protobuf": "2.13.0",
-        "@connectrpc/connect": "2.1.2",
-        "@connectrpc/connect-node": "2.1.2",
-        "@di-framework/auth": "5.3.0",
-        "@di-framework/authz": "5.3.0",
-        "@di-framework/core": "5.3.0",
-        "@di-framework/http": "5.3.0",
-        "@di-framework/repo": "5.3.0",
-        "@di-framework/rpc": "5.3.0",
+        "@bufbuild/protobuf": "2.15.0",
+        "@connectrpc/connect": "2.2.0",
+        "@connectrpc/connect-node": "2.2.0",
+        "@di-framework/auth": "6.0.1",
+        "@di-framework/authz": "6.0.1",
+        "@di-framework/core": "6.0.1",
+        "@di-framework/http": "6.0.1",
+        "@di-framework/repo": "6.0.1",
+        "@di-framework/rpc": "6.0.1",
         "@types/bun": "^1.3.14",
         "@types/node": "^22.0.0",
         "openapi-typescript": "^7.13.0",
@@ -30,23 +30,23 @@
 
     "@babel/helper-validator-identifier": ["@babel/helper-validator-identifier@7.29.7", "", {}, "sha512-qehxGkRj55h/ff8EMaJ+cYhyaKlHIxqYDn682wQD7RNp9UujOQsHog2uS0r2vzr4pW+sXf90NeeayjcNaX3fFg=="],
 
-    "@bufbuild/protobuf": ["@bufbuild/protobuf@2.13.0", "", {}, "sha512-acq7c49vxfm1ggJ95P70TX7ABDM0vxr1SYD3BB0o0jnBLB4OAqeHyKuN+cD3w80gXEDQ2zxHpR6CUeA+O/aU9g=="],
+    "@bufbuild/protobuf": ["@bufbuild/protobuf@2.15.0", "", {}, "sha512-DAheWUkVr/SJTWCc+lg9dhY0eN4SaWlf4+bG1KzHeXbnqt0AfB/NX0Z+VunGlM1ki1B4zVvye27MpKh/svySUA=="],
 
-    "@connectrpc/connect": ["@connectrpc/connect@2.1.2", "", { "peerDependencies": { "@bufbuild/protobuf": "^2.7.0" } }, "sha512-MXkBijtcX09R10Eb6sFeIetc6w6746eio6xtfuyVOH7oQAacT1X0GzMIQFux6Qy8cq3W/T5qX5Bei8YbFtmRGA=="],
+    "@connectrpc/connect": ["@connectrpc/connect@2.2.0", "", { "peerDependencies": { "@bufbuild/protobuf": "^2.7.0" } }, "sha512-M63OQ1ZFcPUm85CuewJ9G9CMV8LjzGR9935xOnXNQGSazAbwMb3x2W7vXBYM1zqrP7XFD8uxp/dUAhirclgwnQ=="],
 
-    "@connectrpc/connect-node": ["@connectrpc/connect-node@2.1.2", "", { "peerDependencies": { "@bufbuild/protobuf": "^2.7.0", "@connectrpc/connect": "2.1.2" } }, "sha512-+i/aAOpsI8sIx1mbYp6d99zvxaUSF6t/jP9Ux9maAmjsZPgmIQ3JuIeYi0zJIP9zlCnBlJjkpPosshCgdRuThQ=="],
+    "@connectrpc/connect-node": ["@connectrpc/connect-node@2.2.0", "", { "peerDependencies": { "@bufbuild/protobuf": "^2.7.0", "@connectrpc/connect": "2.2.0" } }, "sha512-E6uUO6e11WdynAuBjuN+0WpHjqxEM9BNDdfDIJHcn49Esg/WxSIbn2y1KFt9XL96IJi01qdBbvubcdpBz1X3Zw=="],
 
-    "@di-framework/auth": ["@di-framework/auth@5.3.0", "", { "peerDependencies": { "@di-framework/core": "^5", "@di-framework/graphql": "^5", "@di-framework/http": "^5", "@di-framework/repo": "^5", "graphql": "^16.8.0 || ^17.0.0", "typescript": "^5" }, "optionalPeers": ["@di-framework/graphql", "@di-framework/http", "@di-framework/repo", "graphql"] }, "sha512-1GiYz2YNd4f8NdppHsnl8hY2sZsER7prBdPEYPBk7ckTCTOehlA/fYhrcKXzBTLgtSeomo3H3EHOmUwwwbap2Q=="],
+    "@di-framework/auth": ["@di-framework/auth@6.0.1", "", { "peerDependencies": { "@di-framework/core": "^6", "@di-framework/graphql": "^6", "@di-framework/http": "^6", "@di-framework/repo": "^6", "graphql": "^16.8.0 || ^17.0.0", "typescript": "^5" }, "optionalPeers": ["@di-framework/graphql", "@di-framework/http", "@di-framework/repo", "graphql"] }, "sha512-Uyp2N43+3zFSNNEMu0Rtj3kbWLXQkNUoA/6s8+llqrSj2ecwnVQixycJiLJjzMRmUHaXSIHJcvnYbGfvfpltrA=="],
 
-    "@di-framework/authz": ["@di-framework/authz@5.3.0", "", { "peerDependencies": { "@di-framework/auth": "^5", "@di-framework/core": "^5", "@di-framework/http": "^5", "typescript": "^5" }, "optionalPeers": ["@di-framework/http"] }, "sha512-lfssq+YnT51UfROibMyCL8/8wxKYoScyn9zsSwMWfCTh6wX4mEU9/i89wAxJwh5KwEZjYO3cwwx5PbnuSxvEYQ=="],
+    "@di-framework/authz": ["@di-framework/authz@6.0.1", "", { "peerDependencies": { "@di-framework/auth": "^6", "@di-framework/core": "^6", "@di-framework/http": "^6", "typescript": "^5" }, "optionalPeers": ["@di-framework/http"] }, "sha512-RjzpXiMXvN666zNqUq67+foKQaEg+M2VOa64YClBnl7G2RnikmXiuPppgtxTPdc+YCkOutC3Q+oM3Y9gbxMbvA=="],
 
-    "@di-framework/core": ["@di-framework/core@5.3.0", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-Do3o/Alo3IJwb+yQX56Z2QPNBi6qj5kw7/mWwG22hdkCeojf8xyp4a7XP/P4wgFXc39/tMuZBV3oa7zRUqSMhw=="],
+    "@di-framework/core": ["@di-framework/core@6.0.1", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-37tCgxT2U0VAUX81de/zypufcQ83WEA4/vGcXp91IYHpXYhXCflXnaZRF2lnav+EcWZS7+wYMOkZoTpByvco2Q=="],
 
-    "@di-framework/http": ["@di-framework/http@5.3.0", "", { "dependencies": { "itty-router": "^5.0.22" }, "peerDependencies": { "@di-framework/core": "^5", "typescript": "^5" } }, "sha512-50aig4GynCF9zooYB+Fkf+dSVO2zm4wMGXImam1LjRUsgTHzoe1hwBDfhFhPQV1lxJvK4Le0nHtKpwfpqAwjkQ=="],
+    "@di-framework/http": ["@di-framework/http@6.0.1", "", { "dependencies": { "itty-router": "^5.0.22" }, "peerDependencies": { "@di-framework/core": "^6", "typescript": "^5" } }, "sha512-JX8FZKupq1o49gOyVOBGJh3P8beB7XPQQuJl0EHjj4sCYVGApCeGYJVrWWAbP1D3Wo2MFZoZP7Up36eEVYtm+A=="],
 
-    "@di-framework/repo": ["@di-framework/repo@5.3.0", "", { "peerDependencies": { "@di-framework/core": "^5", "typescript": "^5" } }, "sha512-BNyGEVkuVW7rc6eyRS997Ekc9VsqcJRiLaFl5UEHtksD1glMMY+noAB8jYXohQuQcUVOaFjbe3pp4QN7cb5g3g=="],
+    "@di-framework/repo": ["@di-framework/repo@6.0.1", "", { "peerDependencies": { "@di-framework/core": "^6", "typescript": "^5" } }, "sha512-op30DfwFUvIQrsJZYkhAdhxuCr1UDO/1oTVpLmaWmrH+M0C/i2SXnNBF0romu8/2oGeIpULUNIf+YDr12spmZw=="],
 
-    "@di-framework/rpc": ["@di-framework/rpc@5.3.0", "", { "peerDependencies": { "@bufbuild/protobuf": "^2.13.0", "@connectrpc/connect": "^2.1.2", "@connectrpc/connect-node": "^2.1.2", "@di-framework/core": "^5", "@di-framework/socket": "^5", "typescript": "^5" }, "optionalPeers": ["@bufbuild/protobuf", "@connectrpc/connect", "@connectrpc/connect-node", "@di-framework/socket"] }, "sha512-cPJfywO/s7bCF4IogMuTDrv7njexk1xm66/HqX63GVDUEWdJ1A63XxX/yodJ16E6uLVnPO3xYQxiwjJwweyobg=="],
+    "@di-framework/rpc": ["@di-framework/rpc@6.0.1", "", { "peerDependencies": { "@bufbuild/protobuf": "^2.15.0", "@connectrpc/connect": "^2.2.0", "@connectrpc/connect-node": "^2.2.0", "@di-framework/core": "^6", "@di-framework/socket": "^6", "typescript": "^5" }, "optionalPeers": ["@bufbuild/protobuf", "@connectrpc/connect", "@connectrpc/connect-node", "@di-framework/socket"] }, "sha512-1XLpIueGabrC6QKYxv6yqDqvgnPQZWl0BQcj5F+/f0/Dk8ckZecMV52fziPT/11UghwRUA509bg2QzW5pn9PVw=="],
 
     "@hono/node-server": ["@hono/node-server@2.1.1", "", { "peerDependencies": { "hono": "^4" } }, "sha512-ELuehkj5VCBdgEw9zs+ivkKwyzzUCSQuE96YmiPvn1ECBoZCczbFXJLeEGMTYjphP6gydh4pHMqEYPVMYUVgQg=="],
 

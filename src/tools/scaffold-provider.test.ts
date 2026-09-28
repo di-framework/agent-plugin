@@ -26,5 +26,6 @@ assert.${lifecycle === 'Singleton' ? 'equal' : 'notEqual'}(container.resolve(Pay
 test('rejects unsupported versions, lifecycles, and invalid identifiers', () => {
   for (const name of ['foo', 'Container', 'Bad;throw', 'A\nB']) expect(() => scaffoldProvider(name)).toThrow();
   expect(() => scaffoldProvider('Service', 'Scoped')).toThrow('Supported lifecycles');
-  expect(() => scaffoldProvider('Service', 'Singleton', '6.0.0')).toThrow('Unsupported framework version');
+  expect(() => scaffoldProvider('Service', 'Singleton', '5.3.0')).toThrow('Unsupported framework version');
+  expect(scaffoldProvider('Service')).toContain('@di-framework/core 6.0.1');
 });

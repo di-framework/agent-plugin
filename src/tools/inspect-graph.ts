@@ -26,7 +26,7 @@ export function analyzeDependencyGraph(sourceFiles: string[]): GraphReport {
   }
   const report: GraphReport = {
     status: 'complete',
-    scope: 'Static, file-local Container registrations for @di-framework/core 5.3.x. Execution order is not modeled. No application code is executed; runtime metadata, imported classes and container composition require further inspection.',
+    scope: 'Static, file-local Container registrations for @di-framework/core 6.0.x. Execution order is not modeled. No application code is executed; runtime metadata, imported classes, ApplicationContext startup, cron, service-binding token synthesis and container composition require further inspection.',
     nodes: [], cycles: [], unresolved: [], findings: [], limitations: [],
   };
   for (const file of new Set(sourceFiles.map(f => resolve(f)))) {

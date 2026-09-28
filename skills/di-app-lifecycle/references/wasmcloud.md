@@ -1,9 +1,22 @@
-# wasmCloud application and platform workflows
+# wasmCloud application and platform workflows (6.0.1)
 
-Application command names and configuration were verified against the
-[tagged extension guide](https://github.com/di-framework/di-framework/blob/v5.3.0/packages/di-framework-cli-plugin-wasmcloud/README.md).
+Verified command names against the 6.0.1 CLI command tree and the
+[platform extension guide](https://github.com/di-framework/cli-extensions/blob/v6.0.1/packages/cli-plugin-platform/README.md).
+The versioned topics are <https://docs.di-framework.dev/v6.0/wasmcloud.html> and
+<https://docs.di-framework.dev/v6.0/kube.html>.
 Use the target project's resolved extension and `--help` to confirm flags and requirements.
-The extension can be installed as a project dependency; project-local extensions take
+
+In 6.0 the extension publishes from
+[di-framework/cli-extensions](https://github.com/di-framework/cli-extensions) as
+`@di-framework/cli-plugin-platform`. The command group is `platform`. Through 5.x the
+package was `@di-framework/cli-plugin-wasmcloud` and the group was `wasmcloud`.
+Cluster lifecycle moved from `wasmcloud platform deploy` to `platform cluster up`.
+
+```sh
+di-framework extensions install platform
+```
+
+The extension can also be installed as a project dependency; project-local extensions take
 precedence over the user-global store. Avoid silently upgrading a global installation.
 
 An HTTP component project needs `di-framework.config.json`, for example:
@@ -12,12 +25,13 @@ An HTTP component project needs `di-framework.config.json`, for example:
 { "name": "my-api", "entry": "src/app.ts", "output": "dist/my-api.wasm" }
 ```
 
-Its entry exports the application's Fetch handler. Reuse its tested router. Then:
+Its entry exports the application's Fetch handler. Reuse its tested router. Named host
+bindings, when used, live in `src/bindings.ts` and use `@di-framework/bindings`. Then:
 
 ```sh
-di-framework wasmcloud doctor
-di-framework wasmcloud build
-di-framework wasmcloud dev
+di-framework platform doctor
+di-framework platform build
+di-framework platform dev
 ```
 
 Doctor checks project/toolchain readiness. Build generates the component and disposable
@@ -35,37 +49,36 @@ variables; do not copy secrets into generated source/configuration.
 Once deployment is within the user's authorized task, use the verified target:
 
 ```sh
-di-framework wasmcloud deploy my-api --target development
+di-framework platform deploy my-api --target development
 ```
 
 This builds, publishes the artifact and applies resources. Verify reported readiness and
 perform an HTTP smoke test using the returned address/Host header. Report artifact,
 target, readiness and observed response. On failure inspect tool exit output, registry
 access and cluster resources before retrying; stop repeated unchanged failures.
+`platform destroy` removes the application workload. It does not tear down a cluster.
 
 ## Shared Pulumi platform provisioning
 
-The shared-platform implementation shipped separately from the 5.3.0 application
-baseline above. Inspect the installed versions before applying this guidance. See
-[framework PR 460](https://github.com/di-framework/di-framework/pull/460) and
-[kube PR 6](https://github.com/di-framework/kube/pull/6) for the implementation, and the
-[wasmCloud](https://docs.di-framework.dev/wasmcloud.html) and
-[kube](https://docs.di-framework.dev/kube.html) guides for configuration details.
-Older Helm-only kube binaries do not expose the shared-platform flags.
+`@di-framework/platform` **6.0.1** is the shared Pulumi package. The platform extension's
+local profile and `di-framework-kube` both use it, but their cluster owners differ.
+Inspect the installed extension, kube binary, and platform package before applying this
+section. Kube defaults are compiled into that binary and are independent of the
+application's framework version. Older Helm-only kube binaries do not expose
+`--platform-package` or `--platform-config`.
 
 When the authorized task includes provisioning infrastructure, choose the entrypoint
 that owns the intended cluster:
 
-- `di-framework wasmcloud platform init` generates a TypeScript project importing
+- `di-framework platform cluster init` generates a TypeScript project importing
   `@di-framework/platform/local`, with a pinned package dependency. The local profile
   creates Docker/k0s, a Kubernetes registry, and the wasmCloud platform. Inspect the
-  generated target and run `di-framework wasmcloud platform deploy local`.
+  generated target and run `di-framework platform cluster up local --yes`.
 - `di-framework-kube up` manages Kubesolo and uses `@di-framework/platform/existing`
   for platform provisioning. It requires Node.js, npm, and Pulumi; container mode also
-  requires Docker. The integration defaults to `@di-framework/platform@5.3.3` from npm.
-  Use `--platform-package @di-framework/platform@<exact-version>` to select a published
-  release. Local `file:/absolute/path/package.tgz` overrides are for unpublished
-  development changes. Registry provisioning belongs to the caller or example helpers.
+  requires Docker. Pass `--platform-package @di-framework/platform@6.0.1` when the task
+  needs the 6.0 platform APIs. Local `file:/absolute/path/package.tgz` overrides are for
+  unpublished development changes. Registry provisioning belongs to the caller or example helpers.
 
 Both profiles share the operator, Tenant/User CRDs, tenancy controller, admission
 policies, and HTTP routing. Do not copy platform implementation files into an app or
@@ -88,9 +101,9 @@ extension's local-development passphrase for kube's generated passphrase.
 Kube does not automatically adopt legacy Helm releases or another platform's CRDs.
 For a requested migration, back up application data and credentials, arrange downtime,
 and remove the legacy platform with `down` before reprovisioning. `--purge-cluster`
-deletes cluster data and is not a migration step. Application destroy and platform
-destroy have different scope; teardown belongs only to explicitly requested cleanup
-or resources created for an authorized temporary test.
+deletes cluster data and is not a migration step. Application `platform destroy` and
+`platform cluster destroy` have different scope; teardown belongs only to explicitly
+requested cleanup or resources created for an authorized temporary test.
 
 ## Tenant and user declarations
 
@@ -119,10 +132,11 @@ application smoke test pass. Tenant storage currently uses single-node host path
 
 Verify Tenant/User readiness and the intended user's allowed and denied operations,
 then verify the application against its real backend. Operator readiness alone does
-not establish tenant isolation or working bindings. Independently requestable backing
-service CRDs and `di-framework wasmcloud service create` are not delivered by this
-shared-platform integration; do not prescribe proposal commands as supported APIs.
+not establish tenant isolation or working bindings. Requestable backing services
+(`platform service create|list|get|delete|classes`) require `@di-framework/platform` 6.0.1
+and the platform extension. Do not run them against a kube instance that is still on an
+older compiled platform package. The kube example workspace still pins DI Framework 5.3.0.
 
 The plugin's example suite verifies native authoring behavior. It does **not** run a
-wasmCloud build, create infrastructure, or prove a host/toolchain combination works;
+component build, create infrastructure, or prove a host/toolchain combination works;
 perform the checks above in the actual application environment when that is the task.
