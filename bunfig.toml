@@ -1,0 +1,3 @@
+[test]
+# Skill asset tests need the legacy-decorator tsconfig in skills/; framework-examples.test.ts runs them there.
+pathIgnorePatterns = ["skills/**"]

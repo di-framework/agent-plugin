@@ -1,12 +1,12 @@
 ---
-name: di-data-rpc
+name: di-framework-data-rpc
 description: Add repository-backed di-framework services, test storage adapters, or define and consume typed RPC contracts.
 ---
 
 # Data services and RPC boundaries
 
 Inspect resolved core/repo/rpc versions, lockfile, compiler decorators, data models,
-and existing storage/transport configuration first. Bundled examples support **6.0.1**.
+and existing storage/transport configuration first. Bundled examples support **6.0.3**.
 Use exact-version docs/public declarations for another release and report gaps before
 adapting examples. Request version-scoped `di_search_docs`/`di_window` results; check
 provenance rather than silently accepting latest. 6.0.x documentation is the `v6.0` snapshot.
@@ -19,7 +19,7 @@ records, delete, and isolation. Create a fresh repository/container per test.
 `@Repository` is optional registration convenience, not required for storage access.
 
 For durable storage, use the installed adapter's `StorageAdapter` contract. The
-[6.0.1 repository guide](https://github.com/di-framework/di-framework/blob/v6.0.1/packages/di-framework-repo/README.md)
+[6.0.3 repository guide](https://github.com/di-framework/di-framework/blob/v6.0.3/packages/di-framework-repo/README.md)
 covers `BunSqliteAdapter` and `D1Adapter` options and model identity metadata. Those
 adapters still do not create tables themselves. Schema changes go through `@Migration`,
 SQL files, a JSON manifest, or `di-framework migrations status|execute`. Confirm flags
@@ -36,12 +36,12 @@ numbers/types and method input/output factories supply the runtime schema. Prese
 existing field numbers when evolving a contract. A type-only client requires an explicit
 service path because TypeScript generics disappear at runtime.
 
-The published 6.0.1 RPC root imports its protobuf/Connect peers even for the memory
+The published 6.0.3 RPC root imports its protobuf/Connect peers even for the memory
 example. The tested set includes `@bufbuild/protobuf@2.15.0`,
 `@connectrpc/connect@2.2.0`, and `@connectrpc/connect-node@2.2.0`. A missing peer is a
 package loading problem, not a failed dependency registration.
 
-Consult the [RPC guide](https://github.com/di-framework/di-framework/blob/v6.0.1/packages/di-framework-rpc/README.md)
+Consult the [RPC guide](https://github.com/di-framework/di-framework/blob/v6.0.3/packages/di-framework-rpc/README.md)
 when replacing memory with `/http`, `/grpc`, or `/socket` transports. Verify the installed
 transport's peers/configuration. Test network routing, serialization failures,
 timeouts/cancellation, auth interceptors and application errors for the chosen transport.

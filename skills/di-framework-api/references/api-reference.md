@@ -1,7 +1,7 @@
-# Core 6.0.1 reference
+# Core 6.0.3 reference
 
-Verified against the [tagged implementation](https://github.com/di-framework/di-framework/blob/v6.0.1/packages/di-framework-core/container.ts)
-and published `@di-framework/core@6.0.1` declarations and runtime.
+Verified against the [tagged implementation](https://github.com/di-framework/di-framework/blob/v6.0.3/packages/di-framework-core/container.ts)
+and published `@di-framework/core@6.0.3` declarations and runtime.
 Versioned narrative docs are at <https://docs.di-framework.dev/v6.0/>.
 
 | API | Behavior |
@@ -24,7 +24,7 @@ constructor parameters and properties. `@Configuration()` and `@Bean()` declare
 factory beans with explicit dependencies. Global `useContainer()` is supported; follow the
 application's container convention and avoid mixing distinct installed core copies.
 
-Class and class-name registration keys in 6.0.1 can cache separate instances. `register`
+Class and class-name registration keys in 6.0.3 can cache separate instances. `register`
 stores the constructor and `Class.name` as two definitions. Resolve consistently using
 the same key, preferably the constructor for class registrations.
 A fork has no parent lookup and does not inherit later registrations. Factory closures

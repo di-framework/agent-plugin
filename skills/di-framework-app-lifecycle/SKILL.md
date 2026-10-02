@@ -1,5 +1,5 @@
 ---
-name: di-app-lifecycle
+name: di-framework-app-lifecycle
 description: Run, test, build, diagnose, or deploy di-framework applications locally or with the platform CLI extension.
 ---
 
@@ -8,11 +8,12 @@ description: Run, test, build, diagnose, or deploy di-framework applications loc
 Inspect the app's package scripts, resolved framework/CLI versions and lockfile, tsconfig,
 entrypoint, `di-framework.config.json`, and (for deployment) `di-framework.deploy.toml`.
 Use installed binaries and their `--help`; avoid a one-shot latest CLI changing the
-project's toolchain. Application workflows are verified against the **6.0.1** command tree in
+project's toolchain. Application workflows are verified against the **6.0.3** command tree in
 `packages/di-framework-cli/main.ts`. The package README at that tag still lists `agent`
 and `skills` groups that the executable does not register. Do not run those groups.
-Shared Pulumi platform guidance is scoped separately in the wasmCloud reference; inspect
-the installed extension, kube binary, and `@di-framework/platform` version before using it.
+Platform extension commands, the shared Pulumi package, and kube are the
+`di-framework-cli-extensions`, `di-framework-platform`, and `di-framework-kube` skills. Inspect those installed
+versions separately from the application baseline.
 Runtime requirements and configuration are version-specific. Narrative docs for this
 release are the `v6.0` snapshot, including the [CLI](https://docs.di-framework.dev/v6.0/cli.html),
 [wasmCloud](https://docs.di-framework.dev/v6.0/wasmcloud.html), and
@@ -24,7 +25,7 @@ and fall back to TypeScript; inspect the configured compiler and emitted entry b
 running output. `bun run dev` executes source and skips emit-time checks. `mx` commands
 are framework-monorepo maintenance commands, not application commands.
 
-Built-in application groups in 6.0.1 are `init`, `generate`, `check`, `build`,
+Built-in application groups in 6.0.3 are `init`, `generate`, `check`, `build`,
 `http openapi generate`, `actor` (`list`, `inspect`, `reset`, `clean`), `migrations`
 (`status`, `execute`), and `queue` (`list`, `inspect`, `retry`). `extensions install`,
 `uninstall`, and `list` manage CLI extensions. Confirm every flag with `--help` on the
@@ -43,16 +44,19 @@ again after fixing it. `di_inspect_graph` may report incomplete static source an
 checks only caller-supplied assertions. Neither establishes dynamic module initialization
 or transport readiness.
 
-For wasmCloud, read [the deployment workflow](references/wasmcloud.md) before choosing
-commands or modifying target configuration. Building a component and deploying it require
-additional tools; do not infer a working deployment from TypeScript compilation.
-In 6.0 the extension package is `@di-framework/cli-plugin-platform` and the command
-group is `platform`. Through 5.x the group was `wasmcloud`.
+For a wasmCloud component, read [the deployment workflow](references/wasmcloud.md)
+and the `di-framework-cli-extensions` skill before choosing commands or modifying target
+configuration. Building a component and deploying it require additional tools; do not
+infer a working deployment from TypeScript compilation. In 6.0 the extension package
+is `@di-framework/cli-plugin-platform` and the command group is `platform`. Through
+5.x the group was `wasmcloud`. Cluster install and guest bindings are the `di-framework-platform`
+skill. Kubesolo lifecycle is the `di-framework-kube` skill. Agent configuration commands are the
+`di-framework-ai` skill and the `ai` extension, not the 6.0.3 application CLI.
 
 For APIs and changing commands, query `di_search_docs` and `di_window` with the target's
 resolved version, checking provenance. The
-[CLI guide](https://github.com/di-framework/di-framework/blob/v6.0.1/packages/di-framework-cli/README.md)
-is a fallback only after `--help` on the installed 6.0.1 binary; prefer the tagged
+[CLI guide](https://github.com/di-framework/di-framework/blob/v6.0.3/packages/di-framework-cli/README.md)
+is a fallback only after `--help` on the installed 6.0.3 binary; prefer the tagged
 `main.ts` command tree where the README disagrees. When a new release changes these
 commands, update the examples and run the affected lifecycle checks before advertising support.
 
