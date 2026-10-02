@@ -1,6 +1,6 @@
 {
   "name": "@di-framework/plugin",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Agent skills, conventions, and MCP tools for di-framework",
   "type": "module",
   "main": "dist/index.js",
