@@ -12,12 +12,12 @@
         "@bufbuild/protobuf": "2.15.0",
         "@connectrpc/connect": "2.2.0",
         "@connectrpc/connect-node": "2.2.0",
-        "@di-framework/auth": "6.0.1",
-        "@di-framework/authz": "6.0.1",
-        "@di-framework/core": "6.0.1",
-        "@di-framework/http": "6.0.1",
-        "@di-framework/repo": "6.0.1",
-        "@di-framework/rpc": "6.0.1",
+        "@di-framework/auth": "6.0.3",
+        "@di-framework/authz": "6.0.3",
+        "@di-framework/core": "6.0.3",
+        "@di-framework/http": "6.0.3",
+        "@di-framework/repo": "6.0.3",
+        "@di-framework/rpc": "6.0.3",
         "@types/bun": "^1.3.14",
         "@types/node": "^22.0.0",
         "openapi-typescript": "^7.13.0",
@@ -36,17 +36,17 @@
 
     "@connectrpc/connect-node": ["@connectrpc/connect-node@2.2.0", "", { "peerDependencies": { "@bufbuild/protobuf": "^2.7.0", "@connectrpc/connect": "2.2.0" } }, "sha512-E6uUO6e11WdynAuBjuN+0WpHjqxEM9BNDdfDIJHcn49Esg/WxSIbn2y1KFt9XL96IJi01qdBbvubcdpBz1X3Zw=="],
 
-    "@di-framework/auth": ["@di-framework/auth@6.0.1", "", { "peerDependencies": { "@di-framework/core": "^6", "@di-framework/graphql": "^6", "@di-framework/http": "^6", "@di-framework/repo": "^6", "graphql": "^16.8.0 || ^17.0.0", "typescript": "^5" }, "optionalPeers": ["@di-framework/graphql", "@di-framework/http", "@di-framework/repo", "graphql"] }, "sha512-Uyp2N43+3zFSNNEMu0Rtj3kbWLXQkNUoA/6s8+llqrSj2ecwnVQixycJiLJjzMRmUHaXSIHJcvnYbGfvfpltrA=="],
+    "@di-framework/auth": ["@di-framework/auth@6.0.3", "", { "peerDependencies": { "@di-framework/core": "^6", "@di-framework/graphql": "^6", "@di-framework/http": "^6", "@di-framework/repo": "^6", "graphql": "^16.8.0 || ^17.0.0", "typescript": "^5" }, "optionalPeers": ["@di-framework/graphql", "@di-framework/http", "@di-framework/repo", "graphql"] }, "sha512-I1V6YDMkISqnDJbMF+X+jbq759X6PXlyRv3MTEUvyqksd8gi32Sv8uvQeYQgFuiOkA4ERAA+yXnaWVCMjhrwLg=="],
 
-    "@di-framework/authz": ["@di-framework/authz@6.0.1", "", { "peerDependencies": { "@di-framework/auth": "^6", "@di-framework/core": "^6", "@di-framework/http": "^6", "typescript": "^5" }, "optionalPeers": ["@di-framework/http"] }, "sha512-RjzpXiMXvN666zNqUq67+foKQaEg+M2VOa64YClBnl7G2RnikmXiuPppgtxTPdc+YCkOutC3Q+oM3Y9gbxMbvA=="],
+    "@di-framework/authz": ["@di-framework/authz@6.0.3", "", { "peerDependencies": { "@di-framework/auth": "^6", "@di-framework/core": "^6", "@di-framework/http": "^6", "typescript": "^5" }, "optionalPeers": ["@di-framework/http"] }, "sha512-9a2a0pqlIGHJlhNhd4/RjqShJMQbPymQW9YFNsNFRssHL8WNkyr5wv5IMG2/nJZ3JUFlaFcJBPwL0AI8tAEyDw=="],
 
-    "@di-framework/core": ["@di-framework/core@6.0.1", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-37tCgxT2U0VAUX81de/zypufcQ83WEA4/vGcXp91IYHpXYhXCflXnaZRF2lnav+EcWZS7+wYMOkZoTpByvco2Q=="],
+    "@di-framework/core": ["@di-framework/core@6.0.3", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-R9Dv2ZAfXm07eHL68s15bqOjkO9JH0SQishUutpPCi8GxZPHIOrm/I317fni7VVhEb7HIz8V2caNYQXwwhIcww=="],
 
-    "@di-framework/http": ["@di-framework/http@6.0.1", "", { "dependencies": { "itty-router": "^5.0.22" }, "peerDependencies": { "@di-framework/core": "^6", "typescript": "^5" } }, "sha512-JX8FZKupq1o49gOyVOBGJh3P8beB7XPQQuJl0EHjj4sCYVGApCeGYJVrWWAbP1D3Wo2MFZoZP7Up36eEVYtm+A=="],
+    "@di-framework/http": ["@di-framework/http@6.0.3", "", { "dependencies": { "itty-router": "^5.0.22" }, "peerDependencies": { "@di-framework/core": "^6", "typescript": "^5" } }, "sha512-xz5n78pApYaeoTfmpHj3akU1JMnGtRv3oEghfn9e+6LWmuk5NGagqofWSKw/SsfxX/EqRBt/wrVgzEmPd8OyfA=="],
 
-    "@di-framework/repo": ["@di-framework/repo@6.0.1", "", { "peerDependencies": { "@di-framework/core": "^6", "typescript": "^5" } }, "sha512-op30DfwFUvIQrsJZYkhAdhxuCr1UDO/1oTVpLmaWmrH+M0C/i2SXnNBF0romu8/2oGeIpULUNIf+YDr12spmZw=="],
+    "@di-framework/repo": ["@di-framework/repo@6.0.3", "", { "peerDependencies": { "@di-framework/core": "^6", "typescript": "^5" } }, "sha512-Vz03efP9t3fF6FjVydaY08J6xWKrz5QywgGtzYeRmuo3nGMNTlpoTu9PY9wNVnQKwN86Fbptk16np7tSZDG/rQ=="],
 
-    "@di-framework/rpc": ["@di-framework/rpc@6.0.1", "", { "peerDependencies": { "@bufbuild/protobuf": "^2.15.0", "@connectrpc/connect": "^2.2.0", "@connectrpc/connect-node": "^2.2.0", "@di-framework/core": "^6", "@di-framework/socket": "^6", "typescript": "^5" }, "optionalPeers": ["@bufbuild/protobuf", "@connectrpc/connect", "@connectrpc/connect-node", "@di-framework/socket"] }, "sha512-1XLpIueGabrC6QKYxv6yqDqvgnPQZWl0BQcj5F+/f0/Dk8ckZecMV52fziPT/11UghwRUA509bg2QzW5pn9PVw=="],
+    "@di-framework/rpc": ["@di-framework/rpc@6.0.3", "", { "peerDependencies": { "@bufbuild/protobuf": "^2.15.0", "@connectrpc/connect": "^2.2.0", "@connectrpc/connect-node": "^2.2.0", "@di-framework/core": "^6", "@di-framework/socket": "^6", "typescript": "^5" }, "optionalPeers": ["@bufbuild/protobuf", "@connectrpc/connect", "@connectrpc/connect-node", "@di-framework/socket"] }, "sha512-fhxObSI6GWBgY1snBZMjI33wThKc3kD7MT8dcLJFHbW8AaOTcs3eawsvBt7num1p/zW2tt7jk5m+iKL2GpdfIg=="],
 
     "@hono/node-server": ["@hono/node-server@2.1.1", "", { "peerDependencies": { "hono": "^4" } }, "sha512-ELuehkj5VCBdgEw9zs+ivkKwyzzUCSQuE96YmiPvn1ECBoZCczbFXJLeEGMTYjphP6gydh4pHMqEYPVMYUVgQg=="],
 

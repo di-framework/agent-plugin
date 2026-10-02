@@ -1,0 +1,19 @@
+{
+  "name": "di-static-site",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot src/server.ts",
+    "package:assets": "bun scripts/package-assets.ts public src/generated/static-assets.ts",
+    "test": "bun test",
+    "typecheck": "bun x tsc --noEmit"
+  },
+  "dependencies": {
+    "@di-framework/core": "6.0.3",
+    "@di-framework/http": "6.0.3"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.14"
+  }
+}

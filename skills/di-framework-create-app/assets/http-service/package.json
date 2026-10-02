@@ -1,0 +1,23 @@
+{
+  "name": "di-http-service",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "start": "bun run dist/index.js",
+    "build": "di-framework build",
+    "check": "di-framework check",
+    "test": "bun test",
+    "typecheck": "bun x tsc --noEmit"
+  },
+  "dependencies": {
+    "@di-framework/core": "6.0.3",
+    "@di-framework/http": "6.0.3"
+  },
+  "devDependencies": {
+    "@di-framework/cli": "6.0.3",
+    "@di-framework/tsc": "6.0.3",
+    "@types/bun": "^1.3.14"
+  }
+}

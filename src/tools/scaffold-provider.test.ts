@@ -10,13 +10,15 @@ test('generated classes compile and honor singleton and transient lifecycles', a
       const file = join(dir, `${lifecycle}.ts`);
       await Bun.write(file, scaffoldProvider('PaymentService', lifecycle) + `
 import assert from 'node:assert/strict';
-const container = registerPaymentService(new Container());
+import { useContainer } from '@di-framework/core/container';
+const container = useContainer();
 assert.${lifecycle === 'Singleton' ? 'equal' : 'notEqual'}(container.resolve(PaymentService), container.resolve(PaymentService));
 `);
-      const check = Bun.spawn(['bun', 'x', '--no-install', 'tsc', '--noEmit', '--skipLibCheck', '--target', 'ESNext', '--moduleResolution', 'bundler', '--module', 'ESNext', file], { stdout: 'pipe', stderr: 'pipe' });
+      const check = Bun.spawn(['bun', 'x', '--no-install', 'tsc', '--noEmit', '--skipLibCheck', '--experimentalDecorators', '--target', 'ESNext', '--moduleResolution', 'bundler', '--module', 'ESNext', file], { stdout: 'pipe', stderr: 'pipe' });
       expect(await new Response(check.stdout).text()).toBe('');
       expect(await check.exited).toBe(0);
-      const run = Bun.spawn(['bun', file], { stdout: 'pipe', stderr: 'pipe' });
+      // Bun reads decorator settings from the cwd tsconfig; skills/ enables legacy decorators.
+      const run = Bun.spawn(['bun', file], { cwd: join(process.cwd(), 'skills'), stdout: 'pipe', stderr: 'pipe' });
       expect(await new Response(run.stderr).text()).toBe('');
       expect(await run.exited).toBe(0);
     }
@@ -27,5 +29,6 @@ test('rejects unsupported versions, lifecycles, and invalid identifiers', () => 
   for (const name of ['foo', 'Container', 'Bad;throw', 'A\nB']) expect(() => scaffoldProvider(name)).toThrow();
   expect(() => scaffoldProvider('Service', 'Scoped')).toThrow('Supported lifecycles');
   expect(() => scaffoldProvider('Service', 'Singleton', '5.3.0')).toThrow('Unsupported framework version');
-  expect(scaffoldProvider('Service')).toContain('@di-framework/core 6.0.1');
+  expect(scaffoldProvider('Service')).toContain('@di-framework/core 6.0.3');
+  expect(scaffoldProvider('Service', 'Singleton', 'v6.0.1')).toContain('@di-framework/core 6.0.1');
 });

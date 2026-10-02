@@ -52,7 +52,7 @@ export function createDiMcpServer(): Server {
         },
         {
           name: 'di_scaffold_provider',
-          description: 'Scaffolds a service class and registration helper verified with core 6.0.1.',
+          description: 'Scaffolds a @Container() service class verified with core 6.0.3 (latest) and 6.0.1.',
           inputSchema: {
             type: 'object',
             properties: {
@@ -67,7 +67,7 @@ export function createDiMcpServer(): Server {
               },
               frameworkVersion: {
                 type: 'string',
-                description: 'Resolved target core version; scaffold supports 6.0.1 (default)',
+                description: 'Resolved target core version; scaffold supports 6.0.3 (default) and 6.0.1',
               },
             },
             required: ['serviceName'],

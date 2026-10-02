@@ -1,5 +1,5 @@
 ---
-name: di-http-api
+name: di-framework-http-api
 description: Build or test di-framework HTTP APIs, route middleware, authentication guards, and resource authorization.
 ---
 
@@ -7,7 +7,7 @@ description: Build or test di-framework HTTP APIs, route middleware, authenticat
 
 Inspect the app's resolved `@di-framework/core`, `http`, `auth`, and optional `authz`
 versions, lockfile, router entrypoint, and TypeScript configuration before changing routes.
-The bundled example is tested with **6.0.1**. For other versions, verify published types
+The bundled example is tested with **6.0.3**. For other versions, verify published types
 and tagged source; report unverified combinations instead of assuming compatibility.
 Search the `v6.0` docs snapshot when the installed packages are 6.0.x.
 
@@ -20,12 +20,12 @@ Read [the executable example](examples/http-api.ts) for a public health route, p
 route, injected credential strategy and authorization manager, and 401/403/200 tests.
 Its literal credentials are test doubles. In an application, reuse the configured
 `registerAuth` runtime's session/bearer strategy or its existing trusted identity provider.
-Read the versioned [auth guide](https://github.com/di-framework/di-framework/blob/v6.0.1/packages/di-framework-auth/README.md)
+Read the versioned [auth guide](https://github.com/di-framework/di-framework/blob/v6.0.3/packages/di-framework-auth/README.md)
 for stores, secret configuration, cookies/CSRF and protocol route mounting when needed.
 
 `withAuthRoutes(router)` supplies a typed principal and route-level `authorization`
 options. Policies may be application-owned `AuthorizationManager` implementations.
-For resource policies, consult the [authz guide](https://github.com/di-framework/di-framework/blob/v6.0.1/packages/di-framework-authz/README.md):
+For resource policies, consult the [authz guide](https://github.com/di-framework/di-framework/blob/v6.0.3/packages/di-framework-authz/README.md):
 import policy declarations before constructing the manager, load trusted resource data,
 and put `@ResourceAuthorization` above `@Controller`. Deny rules take precedence.
 Do not combine resource decorators with conflicting route-level authorization options.
