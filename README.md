@@ -22,20 +22,42 @@ Project installs also copy Cursor rules or all bundled Claude Code skills. Globa
 ## What's Included
 
 - **Documentation tools:** `di_search_docs` resolves the target project's installed framework version (with provenance), and `di_window` expands a matching section using the same version. Missing or ambiguous version information is reported; remote endpoint fallback does not silently change the requested version.
-- **DI rules and scaffolding:** Class registration, explicit injection, singleton/transient behavior, and independent container forks verified against **@di-framework/core 6.0.1**. `di_scaffold_provider` generates a service class and registration helper; pass the target's resolved `frameworkVersion`. Other scaffold versions are rejected.
+- **DI rules and scaffolding:** Always-on rules for declarative services (`@Container()`, constructor `@Component` injection, `@Bean` token bindings, `ApplicationContext` startup) and for using the framework packages instead of hand-rolled infrastructure, verified against **@di-framework/core 6.0.3**. `di_scaffold_provider` generates a `@Container()` service class; pass the target's resolved `frameworkVersion`. Other scaffold versions are rejected.
 - **Diagnostics:** `di_inspect_graph` inspects supported source patterns and reports incomplete analysis for unsupported constructs. `di_validate_tokens` checks caller-supplied registration assertions only. Runtime resolution tests remain necessary.
 - **Installer:** Merges supported agent MCP settings and distributes the bundled rules and skills.
 
 | Skill | Tasks |
 | --- | --- |
 | `di-framework-api` | Register and inject services, choose lifecycles, diagnose container behavior |
-| `di-http-api` | Build HTTP routes with middleware, authentication and authorization |
-| `di-data-rpc` | Add repository-backed services, test adapters, define and consume RPC contracts |
-| `di-app-lifecycle` | Run, test, build and diagnose apps; prepare and verify wasmCloud deployments |
+| `di-framework-core` | First-principles app patterns: composition, startup, and test isolation |
+| `di-framework-best-practices` | Docs-site practices for injection, config, structure, and tests |
+| `di-framework-design-patterns` | Feature slices, ports and adapters, error mapping, transactions, idempotency; tested sample feature |
+| `di-framework-advanced` | Factories, forks, events, telemetry, and conditional registration |
+| `di-framework-create-app` | Scaffold with `di-framework init` and grow a tested HTTP service starter |
+| `di-framework-cli` | Install the CLI, run built-in commands, and install plugins |
+| `di-framework-tsc` | Wire `@di-framework/tsc` runtime parameter checks |
+| `di-framework-http-api` | Build HTTP routes with middleware, authentication and authorization |
+| `di-framework-static-sites` | Serve static sites and SPAs: static mounts, index and SPA fallback, caching, packaged assets |
+| `di-framework-graphql` | Build decorator-driven GraphQL APIs |
+| `di-framework-codegen` | Generate surfaces from schema manifests |
+| `di-framework-data-rpc` | Add repository-backed services, test adapters, define and consume RPC contracts |
+| `di-framework-repo` | Repositories, custom storage adapters, SQLite migrations, Postgres batches |
+| `di-framework-actors` | Virtual actors, mailboxes, and SQLite actor storage |
+| `di-framework-testing` | `bun:test` isolation, test doubles, in-process HTTP, package fakes, coverage gates |
+| `di-framework-code-quality` | Biome, typechecks, git hooks, per-file coverage check |
+| `di-framework-cicd` | App CI, Dependabot and auto-merge templates, deploy gating, CI-only failures |
+| `di-framework-app-lifecycle` | Run, test, build and diagnose apps; prepare and verify wasmCloud deployments |
+| `di-framework-platform` | Deploy with `di-framework platform`, backing services, and guest bindings |
+| `di-framework-kube` | Create, inspect, and tear down a `di-framework-kube` cluster |
+| `di-framework-cli-extensions` | Install and operate the `platform` and `ai` CLI extensions |
+| `di-framework-ai` | Build chat, tools, retrieval, and agents, or train an ONNX workspace with `di-ml` |
+| `di-framework-ai-utils` | Build in-process agents with Agent Skills and file tools |
+| `di-framework-examples` | Locate usage patterns in the examples repository |
+| `di-framework-docs` | Search and expand official docs with `di_search_docs` and `di_window` |
 
-All skills inspect the target's resolved versions and configuration before prescribing APIs. Bundled examples target **6.0.1**; other releases require verification against their published declarations and versioned source. The lifecycle skill covers the `platform` command group from `@di-framework/cli-plugin-platform` and the shared Pulumi platform used by that extension and kube. Check the installed `@di-framework/platform` package separately from the application baseline. Detailed task guidance links to the `v6.0` docs snapshot rather than maintaining another API manual. The 6.0.1 CLI executable does not register the `agent` or `skills` groups still listed in that tag's CLI README.
+All skills inspect the target's resolved versions and configuration before prescribing APIs. Bundled examples target **6.0.3**; other releases require verification against their published declarations and versioned source. `di-framework-cli-extensions` covers the `platform` and `ai` command groups. `di-framework-platform` covers `@di-framework/platform` and the related packages. `di-framework-kube` covers the `di-framework-kube` CLI. Check those installed versions separately from the application baseline. Detailed application task guidance links to the `v6.0` docs snapshot rather than maintaining another API manual. The 6.0.3 CLI executable does not register the `agent` or `skills` groups still listed in that tag's CLI README; those commands are the `ai` extension.
 
-`bun run check:examples` typechecks and executes the bundled DI, HTTP authentication/authorization, repository, and RPC examples against pinned published packages. Generated scaffolds are separately compiled and tested for singleton/transient identity. These native tests do not run platform component builds or infrastructure deployments; the lifecycle skill describes verification in the target environment.
+`bun run check:examples` typechecks and executes the bundled DI, HTTP authentication/authorization, repository, and RPC examples, and runs the skill asset tests (HTTP service starter, feature test template, sample feature slice, static site), against pinned published packages. Generated scaffolds are separately compiled and tested for singleton/transient identity. These native tests do not run platform component builds or infrastructure deployments; the lifecycle skill describes verification in the target environment.
 
 ---
 
@@ -109,7 +131,7 @@ Dual-licensed under either Apache-2.0 or MIT at your option.
 
 Development and CI use Bun 1.4.2. The bundled MCP server supports Node 20 or newer
 and Bun 1.4.2 or newer; CI tests packed startup on Node 20, 22 and 24 plus Bun.
-Framework examples target the exact 6.0.1 packages pinned in the lockfile.
+Framework examples target the exact 6.0.3 packages pinned in the lockfile.
 
 ```bash
 bun install --frozen-lockfile

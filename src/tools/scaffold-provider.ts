@@ -1,23 +1,28 @@
+/** Published @di-framework/core releases the generated code is compiled and tested against. */
+export const SCAFFOLD_VERSIONS = ['6.0.3', '6.0.1'] as const;
+
 /** Generate code verified against the published @di-framework/core release. */
-export function scaffoldProvider(serviceName: string, lifecycle = 'Singleton', frameworkVersion = '6.0.1'): string {
+export function scaffoldProvider(serviceName: string, lifecycle = 'Singleton', frameworkVersion: string = SCAFFOLD_VERSIONS[0]): string {
   if (!/^[A-Z][A-Za-z0-9]*$/.test(serviceName) || serviceName === 'Container') {
     throw new Error('serviceName must be a PascalCase identifier other than Container');
   }
-  if (frameworkVersion.replace(/^v/, '') !== '6.0.1') {
-    throw new Error(`Unsupported framework version: ${frameworkVersion}. Scaffold supports 6.0.1; inspect the target project resolved version first.`);
+  const version = frameworkVersion.replace(/^v/, '');
+  if (!(SCAFFOLD_VERSIONS as readonly string[]).includes(version)) {
+    throw new Error(`Unsupported framework version: ${frameworkVersion}. Scaffold supports ${SCAFFOLD_VERSIONS.join(', ')}; inspect the target project resolved version first.`);
   }
   if (lifecycle !== 'Singleton' && lifecycle !== 'Transient') {
     throw new Error('Supported lifecycles: Singleton and Transient. Use an explicitly configured fork for isolated containers.');
   }
-  return `// Verified with @di-framework/core 6.0.1.
-import { Container } from '@di-framework/core';
+  const options = lifecycle === 'Transient' ? '{ singleton: false }' : '';
+  return `// Verified with @di-framework/core ${version}. Requires "experimentalDecorators": true.
+import { Container } from '@di-framework/core/decorators';
 
-export class ${serviceName} {
-  // Add domain methods and inject dependencies with @Component or an explicit factory.
-}
-
-export function register${serviceName}(container: Container): Container {
-  return container.register(${serviceName}, { singleton: ${lifecycle === 'Singleton'} });
-}
+/**
+ * ${serviceName}: one responsibility. Declare required collaborators as constructor parameters:
+ *   constructor(@Component(UserRepository) private readonly users: UserRepository) {}
+ * The container creates and wires it; resolve it only at an entry point.
+ */
+@Container(${options})
+export class ${serviceName} {}
 `;
 }
