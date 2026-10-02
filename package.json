@@ -35,10 +35,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/di-framework/plugin.git"
+    "url": "git+https://github.com/di-framework/agent-plugin.git"
   },
   "bugs": {
-    "url": "https://github.com/di-framework/plugin/issues"
+    "url": "https://github.com/di-framework/agent-plugin/issues"
   },
   "homepage": "https://docs.di-framework.dev",
   "keywords": [
