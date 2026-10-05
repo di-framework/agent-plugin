@@ -2,10 +2,10 @@ import { expect, test } from 'bun:test';
 import { resolve } from 'node:path';
 
 for (const file of [
-  'di-framework-api/examples/container-patterns.ts',
-  'di-framework-http-api/examples/http-api.ts',
-  'di-framework-data-rpc/examples/repository.ts',
-  'di-framework-data-rpc/examples/rpc.ts',
+  'di-framework/examples/container-patterns.ts',
+  'di-framework/examples/http-api.ts',
+  'di-framework/examples/repository.ts',
+  'di-framework/examples/rpc.ts',
 ]) {
   test(`published framework example: ${file}`, async () => {
     // Bun resolves runtime compiler options from cwd; examples need legacy decorators.
@@ -19,7 +19,7 @@ for (const file of [
 }
 
 test('skill asset tests', async () => {
-  const process = Bun.spawn(['bun', 'test', './di-framework-create-app/assets', './di-framework-testing/assets', './di-framework-design-patterns/assets', './di-framework-static-sites/assets'], {
+  const process = Bun.spawn(['bun', 'test', './di-framework/assets'], {
     cwd: resolve(import.meta.dir, '../../skills'), stdout: 'pipe', stderr: 'pipe',
   });
   const output = await new Response(process.stderr).text();

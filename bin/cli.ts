@@ -1,11 +1,13 @@
 #!/usr/bin/env node
-import { existsSync, mkdirSync, cpSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { join, resolve, dirname } from 'node:path';
 import { homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { createDiMcpServer } from '../src/server';
-import { checkServer, mergedMcpConfig, writeConfig } from './install';
+import { checkServer } from './install';
+import { agentOptionHelp, assertKnownAgent, planInstallation, selectManifests, type InstallContext } from './manifest';
+import { applyActions } from './assets';
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -27,7 +29,7 @@ Usage: npx -y @di-framework/plugin <command> [options]
   check                 Initialize the installed MCP server and list tools
   help                  Show help
 Options for install, update, check:
-  --agent, -a <name>     cursor, claude (Claude Code), all, auto (default)
+  --agent, -a <name>     ${agentOptionHelp()}
   --global, -g          User configuration instead of project configuration
   --dry-run             Validate and preview installation without writing
 Select versions with npx -y @di-framework/plugin@<version> install.
@@ -41,7 +43,7 @@ async function run() {
   }
   if (!['install', 'update', 'check'].includes(command)) throw new Error(`Unknown command: ${command}`);
   const agent = (option('--agent') ?? option('-a') ?? 'auto').toLowerCase();
-  if (!['cursor', 'claude', 'all', 'auto'].includes(agent)) throw new Error(`Unsupported agent: ${agent}. Supported installers: cursor, claude (Claude Code).`);
+  assertKnownAgent(agent);
   const cwd = process.cwd();
   const base = isGlobal ? homedir() : cwd;
   const runtime = join(base, '.di-framework/plugin');
@@ -51,41 +53,23 @@ async function run() {
     console.log(`MCP initialized; discovered ${names.join(', ')}`);
     return;
   }
-  const cursorPath = join(base, '.cursor/mcp.json');
-  const claudePath = join(base, isGlobal ? '.claude.json' : '.mcp.json');
-  const selected = [
-    { name: 'cursor', path: cursorPath, detected: existsSync(join(base, '.cursor')) || existsSync(join(base, '.cursorrules')) },
-    { name: 'claude', path: claudePath, detected: existsSync(join(base, '.claude')) || existsSync(claudePath) },
-  ].filter((entry) => agent === 'all' || agent === entry.name || (agent === 'auto' && entry.detected));
-  if (!selected.length) throw new Error('No supported agent detected. Choose --agent cursor or --agent claude.');
-  // Validate every target before copying files or changing any configuration.
-  const configs = selected.map((entry) => ({ ...entry, content: mergedMcpConfig(entry.path, server) }));
   let source = resolve(dirname(fileURLToPath(import.meta.url)), '..');
   if (!existsSync(join(source, 'package.json'))) source = resolve(source, '..');
+  const context: InstallContext = { base, source, global: isGlobal, server };
+  const selected = selectManifests(agent, base, isGlobal);
+  // Validate every target before copying files or changing any configuration.
   if (!existsSync(join(source, 'dist/bin/cli.js'))) throw new Error('Built CLI is missing. Build the package before installing.');
+  const planned = planInstallation(context, selected);
   console.log(`${dryRun ? 'Would install' : 'Installing'} runtime: ${runtime}`);
-  for (const config of configs) console.log(`${dryRun ? 'Would merge' : 'Merging'} ${config.name}: ${config.path}`);
+  for (const { plan } of planned.agents) console.log(`${dryRun ? 'Would merge' : 'Merging'} ${plan.name}: ${plan.path}`);
+  for (const action of planned.actions) {
+    const from = action.kind === 'write' ? '' : `${action.source} -> `;
+    console.log(`${dryRun ? 'Would ' : ''}${action.kind}: ${from}${action.destination}`);
+  }
   if (dryRun) return;
-  if (resolve(source) !== resolve(runtime)) {
-    mkdirSync(runtime, { recursive: true });
-    for (const item of ['dist', 'package.json', 'rules', 'skills']) {
-      if (existsSync(join(source, item))) cpSync(join(source, item), join(runtime, item), { recursive: true });
-    }
-  }
+  applyActions(planned.actions);
   const names = await checkServer(server);
-  for (const config of configs) writeConfig(config.path, config.content);
-  for (const entry of selected) {
-    if (entry.name === 'cursor' && !isGlobal && existsSync(join(source, 'rules/AGENTS.md'))) {
-      const rules = join(base, '.cursor/rules');
-      mkdirSync(rules, { recursive: true });
-      writeFileSync(join(rules, 'di-framework.mdc'), `---\ndescription: di-framework conventions\nglobs: *\nalwaysApply: true\n---\n\n${readFileSync(join(source, 'rules/AGENTS.md'), 'utf8')}`);
-    }
-    if (entry.name === 'claude' && existsSync(join(source, 'skills'))) {
-      const skills = join(base, '.claude/skills');
-      mkdirSync(skills, { recursive: true });
-      cpSync(join(source, 'skills'), skills, { recursive: true });
-    }
-  }
+  for (const { manifest, plan } of planned.agents) manifest.write(plan);
   console.log(`MCP initialized; discovered ${names.length} tools. Configuration saved.`);
 }
 run().catch((error) => {

@@ -8,63 +8,66 @@ Equips AI coding assistants with deep knowledge of `di-framework`, version-scope
 
 ## Supported Coding Agents
 
-The installer supports **Cursor** and **Claude Code**. It writes the configuration locations documented by [Cursor](https://prod.cursor.com/help/customization/mcp) and [Claude Code](https://code.claude.com/docs/en/mcp). Other stdio MCP clients can use the manual command below; automatic installation for Claude Desktop, Junie, Codex, Hermes, Gemini CLI, and Antigravity is not implemented.
+The installer supports **Cursor**, **Claude Code**, **Codex**, and **Grok**. It writes Cursor and Claude Code MCP configuration in their documented locations and registers Codex and Grok stdio servers in their TOML configuration. Other stdio MCP clients can use the manual command below; automatic installation for Claude Desktop, Junie, Hermes, Gemini CLI, and Antigravity is not implemented.
 
 | Agent | Project configuration | User configuration (`--global`) |
 | --- | --- | --- |
 | Cursor | `.cursor/mcp.json` | `~/.cursor/mcp.json` |
 | Claude Code | `.mcp.json` | `~/.claude.json` |
+| Codex | `.codex/config.toml` | `~/.codex/config.toml` |
+| Grok | `.grok/config.toml` | `~/.grok/config.toml` |
 
-Project installs also copy Cursor rules or all bundled Claude Code skills. Global Claude Code installs copy all bundled skills to `~/.claude/skills`. Global Cursor rules are not installed. Claude Code may ask you to approve project MCP servers before use.
+Both skills and their complete resources are installed for every selected agent:
+
+| Agent | Project skills | User skills (`--global`) |
+| --- | --- | --- |
+| Cursor | `.cursor/skills` | `~/.cursor/skills` |
+| Claude Code | `.claude/skills` | `~/.claude/skills` |
+| Codex | `.agents/skills` | `~/.agents/skills` |
+| Grok | `.grok/skills` | `~/.grok/skills` |
+
+Cursor paths follow its [current skills documentation](https://cursor.com/docs/skills).
+Project Cursor installs also write `.cursor/rules/di-framework.mdc`; global Cursor
+rules are not installed. Grok rules go to `.grok/rules/di-framework.md` in either
+scope. Claude Code may require approval of project MCP servers; Grok loads project
+configuration after the folder is trusted.
 
 ---
 
 ## What's Included
 
 - **Documentation tools:** `di_search_docs` resolves the target project's installed framework version (with provenance), and `di_window` expands a matching section using the same version. Missing or ambiguous version information is reported; remote endpoint fallback does not silently change the requested version.
-- **DI rules and scaffolding:** Always-on rules for declarative services (`@Container()`, constructor `@Component` injection, `@Bean` token bindings, `ApplicationContext` startup) and for using the framework packages instead of hand-rolled infrastructure, verified against **@di-framework/core 6.0.3**. `di_scaffold_provider` generates a `@Container()` service class; pass the target's resolved `frameworkVersion`. Other scaffold versions are rejected.
+- **Workflow guidance and scaffolding:** Distributed rules guide inspect → design → implement → verify → deliver, with task-specific framework details in the skills. `di_scaffold_provider` generates a `@Container()` service class; pass the target's resolved `frameworkVersion`. Supported scaffold versions are 6.0.3 and 6.0.1.
 - **Diagnostics:** `di_inspect_graph` inspects supported source patterns and reports incomplete analysis for unsupported constructs. `di_validate_tokens` checks caller-supplied registration assertions only. Runtime resolution tests remain necessary.
 - **Installer:** Merges supported agent MCP settings and distributes the bundled rules and skills.
 
 | Skill | Tasks |
 | --- | --- |
-| `di-framework-api` | Register and inject services, choose lifecycles, diagnose container behavior |
-| `di-framework-core` | First-principles app patterns: composition, startup, and test isolation |
-| `di-framework-best-practices` | Docs-site practices for injection, config, structure, and tests |
-| `di-framework-design-patterns` | Feature slices, ports and adapters, error mapping, transactions, idempotency; tested sample feature |
-| `di-framework-advanced` | Factories, forks, events, telemetry, and conditional registration |
-| `di-framework-create-app` | Scaffold with `di-framework init` and grow a tested HTTP service starter |
-| `di-framework-cli` | Install the CLI, run built-in commands, and install plugins |
-| `di-framework-tsc` | Wire `@di-framework/tsc` runtime parameter checks |
-| `di-framework-http-api` | Build HTTP routes with middleware, authentication and authorization |
-| `di-framework-static-sites` | Serve static sites and SPAs: static mounts, index and SPA fallback, caching, packaged assets |
-| `di-framework-graphql` | Build decorator-driven GraphQL APIs |
-| `di-framework-codegen` | Generate surfaces from schema manifests |
-| `di-framework-data-rpc` | Add repository-backed services, test adapters, define and consume RPC contracts |
-| `di-framework-repo` | Repositories, custom storage adapters, SQLite migrations, Postgres batches |
-| `di-framework-actors` | Virtual actors, mailboxes, and SQLite actor storage |
-| `di-framework-testing` | `bun:test` isolation, test doubles, in-process HTTP, package fakes, coverage gates |
-| `di-framework-code-quality` | Biome, typechecks, git hooks, per-file coverage check |
-| `di-framework-cicd` | App CI, Dependabot and auto-merge templates, deploy gating, CI-only failures |
-| `di-framework-app-lifecycle` | Run, test, build and diagnose apps; prepare and verify wasmCloud deployments |
-| `di-framework-platform` | Deploy with `di-framework platform`, backing services, and guest bindings |
-| `di-framework-kube` | Create, inspect, and tear down a `di-framework-kube` cluster |
-| `di-framework-cli-extensions` | Install and operate the `platform` and `ai` CLI extensions |
-| `di-framework-ai` | Build chat, tools, retrieval, and agents, or train an ONNX workspace with `di-ml` |
-| `di-framework-ai-utils` | Build in-process agents with Agent Skills and file tools |
-| `di-framework-examples` | Locate usage patterns in the examples repository |
-| `di-framework-docs` | Search and expand official docs with `di_search_docs` and `di_window` |
+| [`di-framework`](skills/di-framework/SKILL.md) | Inspect → design → implement → verify → deliver; framework apps, transports, data, actors, AI, toolchain, and platform |
+| [`principled-engineering`](skills/principled-engineering/SKILL.md) | Independent umbrella for design calibration, naming, SOLID, boundary test doubles, and Twelve-Factor practices |
 
-All skills inspect the target's resolved versions and configuration before prescribing APIs. Bundled examples target **6.0.3**; other releases require verification against their published declarations and versioned source. `di-framework-cli-extensions` covers the `platform` and `ai` command groups. `di-framework-platform` covers `@di-framework/platform` and the related packages. `di-framework-kube` covers the `di-framework-kube` CLI. Check those installed versions separately from the application baseline. Detailed application task guidance links to the `v6.0` docs snapshot rather than maintaining another API manual. The 6.0.3 CLI executable does not register the `agent` or `skills` groups still listed in that tag's CLI README; those commands are the `ai` extension.
+The framework entry point loads only the resources relevant to the request: discovery,
+bootstrap, diagnostics, composition, architecture, HTTP, static sites, GraphQL, codegen,
+RPC, persistence, actors, AI, toolchain, testing, quality/CI, platform, and kube.
+Runnable examples live in its `examples/`, starters and templates in `assets/`, and the
+coverage helper in `scripts/`. Engineering references retain their original metadata
+and [license attribution](skills/principled-engineering/LICENSE.md).
 
-`bun run check:examples` typechecks and executes the bundled DI, HTTP authentication/authorization, repository, and RPC examples, and runs the skill asset tests (HTTP service starter, feature test template, sample feature slice, static site), against pinned published packages. Generated scaffolds are separately compiled and tested for singleton/transient identity. These native tests do not run platform component builds or infrastructure deployments; the lifecycle skill describes verification in the target environment.
+Bundled application examples target **6.0.3**; other releases require verification
+against their declarations and tagged source. The inspected AI 6.0.2 packages peer
+on core/auth **^5**. Platform 6.0.2 and CLI extensions 6.0.4 version independently;
+inspect those installed versions separately. The 6.0.3 application CLI does not
+register the `agent` or `skills` groups still listed in its README; use the `ai`
+extension. Deployment runs only within the requested task.
+
+`bun run check:examples` typechecks and executes the bundled DI, HTTP authentication/authorization, repository, and RPC examples, and runs the skill asset tests (HTTP service starter, feature test template, sample feature slice, static site), against pinned published packages. Generated scaffolds are separately compiled and tested for singleton/transient identity. These native tests do not run platform component builds or infrastructure deployments; the platform resource describes verification in the target environment.
 
 ---
 
 ## Installation
 
 ### In a Project Workspace (Recommended)
-Detects Cursor (`.cursor` or `.cursorrules`) and Claude Code (`.claude` or `.mcp.json`) in your workspace. If neither is present, select an agent explicitly:
+Detects Cursor (`.cursor` or `.cursorrules`), Claude Code (`.claude` or `.mcp.json`), Codex (`.codex`), and Grok (`.grok`) in your workspace. If none is present, select an agent explicitly:
 
 ```bash
 npx @di-framework/plugin install
@@ -76,6 +79,8 @@ bunx @di-framework/plugin install
 ```bash
 npx @di-framework/plugin install --agent cursor
 npx @di-framework/plugin install --agent claude
+npx @di-framework/plugin install --agent codex
+npx @di-framework/plugin install --agent grok
 npx @di-framework/plugin install --agent all
 ```
 
@@ -86,7 +91,24 @@ npx @di-framework/plugin install --global --agent cursor
 
 The installer copies a bundled runtime, rules, and skills into `.di-framework/plugin` (or `~/.di-framework/plugin` for user installs). Registrations launch that durable CLI with `serve` using the installing Node/Bun executable, so deleting an `npx` cache does not break them. Keep that runtime executable installed; rerun installation after moving the workspace or replacing its runtime. Generated absolute paths are machine-specific.
 
-Existing unrelated settings and servers are preserved. Invalid or unreadable JSON aborts before changing installation files. Use `--dry-run` to validate and preview without writes. `update` repeats the merge without duplicate registrations; choose a package version on the runner, for example `npx -y @di-framework/plugin@1.0.0 update --agent cursor`.
+Existing unrelated settings, servers, and skills are preserved. All configurations,
+asset copies, and legacy archives are planned and validated before mutation. Invalid
+or unreadable JSON/TOML and unsupported inline TOML `mcp_servers` representations
+abort without writes. `--dry-run` previews configuration merges, copies, and archives
+without creating files. `update` repeats the merge without duplicate registrations;
+select a runner version with `npx -y @di-framework/plugin@<version> update --agent all`.
+
+The exact 26 retired framework directories are listed in
+[`bin/assets.ts`](bin/assets.ts). Complete matching folders, including user edits,
+are moved from the durable runtime and selected agent destinations to
+`<base>/.di-framework/skill-archives/<unique-batch>/<target>/<skill-name>`.
+Targets are `runtime`, `cursor`, `claude`, `codex`, and `grok`; previous archive batches
+are never overwritten. Unrelated skills, including similarly prefixed custom names,
+stay in place. A repeat update creates no archive unless a retired folder reappears.
+Updates launched from the durable runtime skip copies onto the same source and exclude
+retired folders from redistribution. Only the plugin’s bundled skills are redistributed;
+custom additions to the runtime stay there and cannot overwrite agent-owned skills. Invoke `di-framework` for tasks previously served
+by an old skill name.
 
 Installation initializes the copied MCP server and verifies discovery of all five tools before saving configurations. To repeat this check:
 
@@ -119,13 +141,15 @@ If your environment uses a manual MCP client configuration:
 
 ### Tested scope
 
-`bun test` covers safe configuration merging, including permission failures. After `bun run build`, `bun test/packed-smoke.ts` packs the publishable artifact and checks MCP initialization and tool discovery under Node and Bun, both generated adapter configurations, dry-run, invalid JSON, repeat installation, and startup and updates from the durable runtime after deleting the source package. It also exercises `npx` with the packed artifact and deletes its cache before checking the installed server. These are protocol/configuration tests; interactive Cursor and Claude Code UI discovery has not been automated.
+`bun test` covers safe configuration merging, including permission failures. After `bun run build`, `bun test/packed-smoke.ts` packs the publishable artifact and checks MCP initialization and tool discovery under Node and Bun, generated adapter configurations, dry-run, invalid configurations, edited legacy migration, archive preservation, complete resource delivery to all four agents, repeat installation, and startup and updates from the durable runtime after deleting the source package. It also exercises `npx` with the packed artifact and deletes its cache before checking the installed server. These are protocol/configuration checks; interactive Cursor, Claude Code, Codex, and Grok UI discovery has not been automated.
 
 ---
 
 ## License
 
 Dual-licensed under either Apache-2.0 or MIT at your option.
+Bundled engineering reference material has its own
+[license and attribution](skills/principled-engineering/LICENSE.md).
 
 ## Validation and supported runtimes
 
