@@ -1,0 +1,20 @@
+#!/bin/sh
+set -e
+
+echo "[pre-push] Running tests with coverage..."
+cov_log="$(mktemp -t pre-push-cov.XXXXXX)"
+trap 'rm -f "$cov_log"' EXIT
+
+if ! bun test --coverage --coverage-reporter=text --coverage-reporter=lcov --timeout 60000 >"$cov_log" 2>&1; then
+  tail -n 120 "$cov_log" >&2 || true
+  echo "[pre-push] FAILED. If the summary says '0 fail', bunfig.toml coverageThreshold failed." >&2
+  echo "[pre-push] Reproduce with: bun test --coverage" >&2
+  exit 1
+fi
+
+# Optional per-file gate; copy scripts/check-line-coverage.ts from the di-framework skill.
+if [ -f scripts/check-line-coverage.ts ]; then
+  bun scripts/check-line-coverage.ts
+fi
+
+echo "[pre-push] Passed."
